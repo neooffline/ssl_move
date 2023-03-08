@@ -1,0 +1,8 @@
+{
+  "hosts":
+    {
+      "google.com": "",
+      "yandex.ru": ""
+    },
+  "local": ["local.pem"]
+}
