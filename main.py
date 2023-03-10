@@ -5,16 +5,21 @@ from check.remote_check import get_days_from_rem_list
 from scheduler.scheduler import add_job
 from scheduler import app
 
-with open("hosts.json", 'r') as file:
-    data = json.load(file)
-    hosts = data["hosts"]
-    local_cert = data["local"]
-    logger.debug(f'Local certs list: {local_cert}\nRemote hosts: {hosts}')
+
+def get_options():
+    with open("hosts.json", 'r') as file:
+        data = json.load(file)
+        hosts = data["hosts"]
+        local_cert = data["local"]
+        logger.debug(f'Local certs list: {local_cert}\nRemote hosts: {hosts}')
+    return hosts, local_cert
 
 
 def test():
-    add_job(get_days_from_loc_list, params_=local_cert, id_="local")
-    add_job(get_days_from_rem_list, params_=hosts, id_="rem")
+    opts = get_options()
+    add_job(get_days_from_rem_list, params_=opts[0], id_="rem")
+    add_job(get_days_from_loc_list, params_=opts[1], id_="local")
+
 
 
 # Press the green button in the gutter to run the script.
